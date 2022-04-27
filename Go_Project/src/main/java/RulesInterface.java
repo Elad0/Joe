@@ -16,7 +16,7 @@ Rules of go
 3. Black goes first
 4.2 points are adjacent if there is a horizontal or vertical line between that that isuninterrrupted
 5. black gets 181 pieces, white gets 180
-6. pieces are coneccted if you can draw a path from one to the other through onky adjacent intersections
+6. pieces are coneccted if you can draw a path from one to the other through only adjacent intersections
 liberty of a stone is an empty intersection adjacent to that stone or adjacent to a stone which is connected to that stone.
 
 Liberty is a piece that

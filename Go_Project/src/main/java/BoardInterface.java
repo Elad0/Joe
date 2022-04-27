@@ -4,10 +4,9 @@ public interface BoardInterface {
      * add a Piece to the board at the row, column
      * @param row
      * @param column
-     * @param color - color of the piece being placed
      * @return
      */
-    boolean placePiece(int row, int column, boolean color);
+    boolean placePiece(int row, int column, Piece piece);
 
     /**
      * returns a copy of the board state to be logged in the game's

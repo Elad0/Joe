@@ -33,7 +33,10 @@ public class Player implements PlayerInterface{
     @Override
     //decrement pieces left by 1
     public void placePiece(int row, int column){
+        this.piecesLeft--;
         //logic to place a piece on the board
+
+
     }
 
     @Override
