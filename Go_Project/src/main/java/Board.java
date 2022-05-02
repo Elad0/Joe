@@ -5,8 +5,8 @@ public class Board implements BoardInterface{
     private Piece[][] board;
     private final int boardSize = 19;
 
-    public Board(int boardSize){  //Possible board sizes 5x5 9x9 13x13 17x17
-        setBoardSize(boardSize);
+    public Board(){  //Possible board sizes 5x5 9x9 13x13 17x17
+//        setBoardSize(boardSize);
         this.board = new Piece[this.boardSize][this.boardSize];
     }
     /*
@@ -19,14 +19,13 @@ public class Board implements BoardInterface{
     
     @Override
     public boolean placePiece(int row, int column, Piece piece) {
-        this.board[row][column]=piece;
+        //this.board[row][column] = piece;
+        piece.setLocation(row, column);
 
         //verify the board here and return false if not valid
     //logic to check if there are no liberties left
 
         return piece.getColor();
-
-
     }
 
     @Override
@@ -51,6 +50,7 @@ public class Board implements BoardInterface{
 
         }
     }
+    
     
     
     @Override

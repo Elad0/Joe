@@ -9,11 +9,11 @@ public class Player implements PlayerInterface{
         this.name=name;
         this.age=age;
         this.color=color;
-        if(!color){
-            this.piecesLeft=181;
+        if(color){
+            this.piecesLeft=180;
         }
         else {
-            this.piecesLeft = 180;
+            this.piecesLeft = 181;
         }
     }
     @Override

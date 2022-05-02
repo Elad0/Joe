@@ -31,10 +31,7 @@ public class Piece implements PieceInterface {
         return false;
     }
 
-    public int getLiberties(){
-
-    }
-
+    
     public void setLocation(int row, int column){
         this.row=row;
         this.column=column;

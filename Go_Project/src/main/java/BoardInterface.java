@@ -6,7 +6,7 @@ public interface BoardInterface {
      * @param column
      * @return
      */
-    boolean placePiece(int row, int column, Piece piece);
+    //boolean placePiece(int row, int column, Piece piece);
 
     /**
      * returns a copy of the board state to be logged in the game's
