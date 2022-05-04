@@ -1,3 +1,4 @@
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Scanner;
@@ -9,30 +10,55 @@ private Player p1;
 private Player p2;
 private HashSet<Board> pastBoards;
 private Board gameBoard;
+private boolean playerTurn;
+private BoardState boardState;
 
 public Game(){
     this.p1=null;
     this.p2=null;
     this.pastBoards= new HashSet<Board>();
     this.gameBoard=new Board();
+    this.playerTurn=true;
+    this.boardState=new BoardState();
+    
+    this.setUp();
 }
     public Player play() {
+    	int decision=0;
         boolean gameOver=false;
-;
+
         Scanner kbReader= new Scanner(System.in);
         setUp();
         while(gameOver==false){
 
-            System.out.println("Input -1 to skip your turn, any other number to continue- Warning skipping consectively results in a loss and if 2 players skip consecutively the game ends");
-           try{int decision= kbReader.nextInt();}
+            System.out.println(" Player "+ this.choosePlayer().getName()+"'s turn"+"Input -1 to skip your turn, any other number to continue- Warning skipping consectively results in a loss and if 2 players skip consecutively the game ends");
+           try{ decision= kbReader.nextInt();}
            catch(Exception e){
                System.out.println("That was not a number. Please input a number");
                continue; //If the player did not have a valid choice simply prompt them to choose again
            }
-
-
-
+           
+          while( turn(this.gameBoard, decision)==false) {
+        	  System.out.println("That was not a valid move,- LOGIC FOR THE REASON WHY IT WAS INVALID- SIMILAR BOARD, PIECE THERE ETCETERA CAN REMOVE THIS PART IF TOO CHALLENGING");
+        	  turn(this.gameBoard, decision);
+          }
+   
+         
+if(this.skippedTurns==2) {
+	gameOver=true;
+}
+ 
+//turn ends so swap players;
+this.playerTurn=!this.playerTurn;
+this.pastBoards.add(this.gameBoard);//add current board to past boards;
         }
+        
+        
+      
+        
+        
+        
+        
     }
 
     private void setUp(){
@@ -52,7 +78,7 @@ public Game(){
         this.p2= new Player(nameP2, age2, true);
     }
 
-    private void placePiece(Player player) { //prompt the user to place a piece on the board
+    private boolean placePiece(Player player, Board board) { //prompt the user to place a piece on the board
     Scanner kbReader= new Scanner(System.in);
     System.out.println("What row would you like to place a piece on?, the row must be from 1-19");
     String rowS= kbReader.nextLine();
@@ -74,7 +100,21 @@ public Game(){
         int verifiedrow=Integer.parseInt(rowS);
         int verifiedColumn=Integer.parseInt(columnS);
         
-    //logic to place a piece
+       boolean valid= this.boardState.spotIsTaken(verifiedrow, verifiedColumn, board.getCopyOfBoard());
+       
+       if(valid) {
+    	   if (this.pastBoards.contains(this.gameBoard)) {
+    		   return false;
+			
+		}
+    	   
+    	   
+    	   return true;
+       }
+       
+       else {
+    	   return false;
+       }
         // 
         
         //if the board is valid make this.gameboard=tempelse reprompt the user to place a piece
@@ -86,15 +126,49 @@ public Game(){
         return false;
     }
 
-    @Override
-    public boolean turn(Board board, int i) {   //make a turn and return true if valid else false
+    public boolean turn(Board board, int i) {   //make a turn and return true if valid else false //boolean to distinguish who it is// true for p1, false for p2
+    	
         if(i==-1){
             this.skippedTurns=this.skippedTurns++;
             return true;
         }
         this.skippedTurns=this.skippedTurns--;
+        
+      //place piece on a location on copy of the board and verify the move
+    if(!this.placePiece(choosePlayer(),this.gameBoard)) { //the location chosen was not valid, try again
+    	return false;
+    }
+    
+    if(this.pastBoards.contains(this.gameBoard)) {
+    	return false;
+    }
+    
+        
+        //if turn is invalid return false and prompt the player to go again
+        
+        
+        
+        
+        
+        
+        
     }
 
+    
+private Player choosePlayer() {	//method which implements the logic of who's turn it is
+	if(this.playerTurn) {
+		return this.p1;
+	}
+	
+	else {
+		return this.p2;
+	}
+}
+    
+    
+    
+    
+    
     private boolean isValidRoworColumn(String k) {
         try {
             Integer.parseInt(k);
@@ -114,10 +188,9 @@ public Game(){
     }
     @Override
     public Set<Board> getPastBoards() {
-        return null;
+    	return Collections.unmodifiableSet(this.pastBoards);
+     
     }
 
-    public static void main(String args[]){
-        play();
-    }
+ 
 }
